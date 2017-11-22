@@ -1,0 +1,4 @@
+/vendor
+.env
+/public/logo
+/public/profile_picture

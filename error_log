@@ -1,0 +1,8 @@
+[06-Sep-2016 12:34:39 America/Mexico_City] PHP Deprecated:  Automatically populating $HTTP_RAW_POST_DATA is deprecated and will be removed in a future version. To avoid this warning set 'always_populate_raw_post_data' to '-1' in php.ini and use the php://input stream instead. in Unknown on line 0
+[06-Sep-2016 12:34:42 America/Mexico_City] PHP Deprecated:  Automatically populating $HTTP_RAW_POST_DATA is deprecated and will be removed in a future version. To avoid this warning set 'always_populate_raw_post_data' to '-1' in php.ini and use the php://input stream instead. in Unknown on line 0
+[13-Mar-2017 14:09:01 UTC] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home/meisshi/public_html/api4/app/Notification.php on line 10
+[13-Mar-2017 14:09:24 UTC] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home/meisshi/public_html/api4/app/Notification.php on line 10
+[13-Mar-2017 14:40:56 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/meisshi/public_html/api4/app/Notification.php on line 14
+[13-Mar-2017 16:25:15 UTC] PHP Fatal error:  Cannot use object of type stdClass as array in /home/meisshi/public_html/api4/app/Http/Controllers/NotificationController.php on line 42
+[13-Mar-2017 18:06:57 UTC] PHP Fatal error:  Call to a member function following() on null in /home/meisshi/public_html/api4/app/Http/Controllers/FollowingController.php on line 18
+[25-Sep-2017 23:35:06 UTC] PHP Fatal error:  Call to undefined function App\Http\Controllers\generateRandomString() in /home/meisshiuser/public_html/api4/app/Http/Controllers/UserController.php on line 184
