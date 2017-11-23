@@ -20,12 +20,6 @@ class ContactController extends Controller {
 	public function index($userId, Request $request) 
 	{
 		$user = User::findOrFail($userId); 
-/*
-        $contacts1 = Contact::where('contact2', $user->id)
-            ->select(['contact1'])
-            ->map(function($item) {
-                return $item->contact1;
-            });*/
 
         $contacts2 = Contact::where('contact1', $user->id)
             ->select(['contact2'])
@@ -41,13 +35,6 @@ class ContactController extends Controller {
 
 	public function getContacts(User $user, Request $request)
 	{
-		/*
-        $contacts1 = Contact::where('contact2', $user->id)
-            ->get(['contact1'])
-            ->map(function($item) {
-                return $item->contact1;
-            }); */
-
         $contacts2 = Contact::where('contact1', $user->id)
             ->get(['contact2'])
             ->map(function($item) {
@@ -60,8 +47,11 @@ class ContactController extends Controller {
                 ->get();
 	}
 
-	public function addContact(User $user, Request $request, Publisher $publisher)
-	{
+	public function addContact(
+		User $user,
+		Request $request,
+		Publisher $publisher
+	) {
 		app('db')->beginTransaction();
 		$contactId = $request->get('contact_id');
 
@@ -73,7 +63,6 @@ class ContactController extends Controller {
 					'contact1' => $user->id,
 					'contact2' => $contactId 
 				]);
-
 
 			$publisher->sendFollowerNotificationToUser($user->id, $contactId);
 

@@ -30,7 +30,8 @@ class AuthController extends ApiController
             'only' => [
                 'checkSession',
                 'logout',
-                'updateDeviceToken'
+                'updateDeviceToken',
+                'updateLocation'
             ]
         ]);
     }

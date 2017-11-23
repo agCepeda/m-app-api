@@ -18,15 +18,26 @@ class NotificationController extends Controller
 
 	public function index(User $user, Request $request)
 	{
+		$page = $request->get('page', 1);
+		$size = $request->get('size', 20);
 		$notifications = $user->notifications()
 							  ->with('attachment')
-							  ->where('seen', false)
-							  ->get();
+							  //->where('seen', false)
+							  ->paginate($size, ['*'], 'page', $page);
 		return response()->json($notifications);
 	}
 
-	public function notificationPolling(User $user, Request $request) 
+	public function update($notificationId)
 	{
+		$notification = Notification::find($notificationId);
+		$notification->seen = true;
+		$notification->save();
+	}
+
+	public function notificationPolling(
+		User $user,
+		Request $request
+	) {
 		$db = app('db');
 
 		$notificationToken = $request->get('token', null);

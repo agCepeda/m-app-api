@@ -53,10 +53,11 @@ $app->post('/user/{userId}/review', 'ReviewController@create');
 $app->get('/user/{userId}/review/{reviewId}', 'ReviewController@show');
 
 $app->get('/profession', 'ProfessionController@index');
-$app->get('/notification', 'NotificationController@index');
 $app->get('/push-notification', 'NotificationController@notificationPolling');
 
 //$app->put('/user/{id}', 'UserController@update');
+$app->get('/notification', 'NotificationController@index');
+$app->post('/notification/{notificationId}', 'NotificationController@update');
 
 $app->get('profile/{userId}', 'ProfileController@show');
 
