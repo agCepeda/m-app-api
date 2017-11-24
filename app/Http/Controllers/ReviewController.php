@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\User;
 use App\Review;
+use App\Constants;
 
 use Illuminate\Http\Request;
 
@@ -13,12 +14,10 @@ use App\Notifications\Publisher;
 
 class ReviewController extends Controller 
 {
-
 	public function __construct() 
 	{
 		$this->middleware('auth.user');
 	}
-
 
 	public function index($userId, Request $request) 
 	{
@@ -49,6 +48,16 @@ class ReviewController extends Controller
 					'score'       => $request->get('score')
 				]);
 
+			app('db')
+				->table('notifications')
+				->insert([
+					'user_id' => $userId,
+					'notification_type_id' => Constants::NOTIFICATION_TYPE_REVIEW,
+					'attachment' => $user->id
+				]);
+
+			$publisher->sendReviewNotificationToUser($userId, $user->id);
+
 			$review = $db->table('reviews')
 				->where('reviews.id', $reviewId)
 				->join('users', 'reviews.reviewer_id', '=', 'users.id')	
@@ -57,10 +66,8 @@ class ReviewController extends Controller
 					'reviews.comment',
 					'reviews.score',
 					$db->raw('CONCAT(users.name, " ", users.last_name) AS reviewer_name')
-					])
+				])
 				->first();
-
-			$publisher->sendReviewNotificationToUser($userId, $user->id);
 
 			return response()->json($review);
 		} catch (\Exception $ex) {

@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
+use Log;
+
+use App\Notifications\Publisher;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
 use App\User;
 use App\Contact;
-use Log;
-use App\Notifications\Publisher;
+use App\Constants;
 
 class ContactController extends Controller {
 
@@ -55,13 +58,20 @@ class ContactController extends Controller {
 		app('db')->beginTransaction();
 		$contactId = $request->get('contact_id');
 
-		Log::debug("Add Contact {$contactId}");
-
 		try {
-			app('db')->table('contacts')
+			app('db')
+				->table('contacts')
 				->insert([
 					'contact1' => $user->id,
 					'contact2' => $contactId 
+				]);
+
+			app('db')
+				->table('notifications')
+				->insert([
+					'user_id' => $contactId,
+					'notification_type_id' => Constants::NOTIFICATION_TYPE_FOLLOWER,
+					'attachment' => $user->id
 				]);
 
 			$publisher->sendFollowerNotificationToUser($user->id, $contactId);

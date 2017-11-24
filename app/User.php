@@ -86,52 +86,6 @@ class User extends Model
         return $this->belongsToMany('App\User', 'contacts', 'contact1', 'contact2');
     }
 
-/*
-    public function toArray()
-    {
-        $attributes = [];
-
-        $attributes['id']        = $this->id;
-        $attributes['email']     = $this->email;
-        $attributes['name']      = $this->name;
-        $attributes['last_name'] = $this->last_name;
-        $attributes['show_name'] = $this->show_name;
-        
-
-        $attributes['telephone1'] = $this->telephone1;
-        $attributes['telephone2'] = $this->telephone2;
-        $attributes['company']    = $this->company;
-        $attributes['position']   = $this->position;
-
-        $attributes['street']       = $this->street;
-        $attributes['number']       = $this->number;
-        $attributes['neighborhood'] = $this->neighborhood;
-        $attributes['zip_code']     = $this->zip_code;
-        $attributes['city']         = $this->city;
-
-        if (array_key_exists('card', $this->getRelations())) 
-            $attributes['card'] = $this->card;
-
-        if (array_key_exists('profession', $this->getRelations())) 
-            $attributes['profession'] = $this->profession;
-        //$attributes['logo'] = url($this->logo);
-
-        if ($this->review)
-            $attributes['review'] = $this->review;
-
-        $attributes['website'] = $this->website;
-        $attributes['facebook'] = $this->facebook;
-        $attributes['twitter'] = $this->twitter;
-
-        if ($this->contact)
-            $attributes['contact']  = $this->contact;
-    
-        $attributes['click_logo'] = $this->click_logo;
-        $attributes['distance']   = $this->distance;
-
-        return $attributes;
-    } */
-
     public function toArray()
     {
         $attributes = [];
@@ -150,7 +104,7 @@ class User extends Model
         if ($this->logo) {
             $attributes['logo'] = url($this->logo);
         } else {
-            $attributes['logo'] = url('public/img/default-user.png');
+            $attributes['logo'] = url('public/img/default-logo.png');
         }
 
         $attributes['telephone1'] = $this->telephone1;
