@@ -22,50 +22,47 @@ class Publisher
 	}
 
 
-	public function sendFollowerNotificationToUser($userId, $followerId) 
-	{
-		app('log')->debug("Sending follower notification to {$followerId}");
-		
+	public function sendFollowerNotificationToUser($userId) 
+	{	
 		$user = app()[User::class];
 
-		$message  = $user->name . ' ' . $user->last_name . ' started following you.';
+		$message  = "{$user->name} {$user->last_name} started following you.";
+
+		$noNotifications = $this->getNotificationCount($userId);
 
 		$payload  = [
 			"aps" => [
 				"alert"    => $message,
 				"sound"    => "default",
 				"link_url" => "https://youtube.com",
-				// "badge"    => $follower->notifications_count,
+				"badge"    => $noNotifications,
 				"user_id"  => $user->id
 			]
 		];
-		Log::info("Send follower notification by userId: {$followerId}");
 
-		$this->sendNotificationToUserDevices($followerId, $payload);
+		$this->sendNotificationToUserDevices($userId, $payload);
 	}
 
 
-	public function sendReviewNotificationToUser($userId, $followerId) 
+	public function sendReviewNotificationToUser($userId) 
 	{
-		app('log')->debug("Sending review notification to {$followerId}");
-		
 		$user = app()[User::class];
 
-		$message  = $user->name . ' ' . $user->last_name . ' posted a review in your profile.';
+		$message  = "{$user->name} {$user->last_name} posted a review in your profile.";
+
+		$noNotifications = $this->getNotificationCount($userId);
 
 		$payload  = [
 			"aps" => [
 				"alert"    => $message,
 				"sound"    => "default",
 				"link_url" => "https://youtube.com",
-				// "badge"    => $follower->notifications_count,
-				"user_id"  => $followerId
+				"badge"    => $noNotifications,
+				"user_id"  => $user->id
 			]
 		];
 
-		Log::info("Send review notification userId: {$userId} followerId: {$followerId}");
-
-		$this->sendNotificationToUserDevices($followerId, $payload);
+		$this->sendNotificationToUserDevices($userId, $payload);
 	}
 
 	private function sendNotificationToUserDevices($userId, $payload)
@@ -104,8 +101,15 @@ class Publisher
 	}
 
 
-	private function publishNotificationToDevice($deviceToken, array $payload) 
+	private function getNotificationCount($userId) 
 	{
-
+		return app('db')
+				->table('notifications AS n')
+				->where('user_id', $userId)
+				->groupBy('user_id')
+				->first([
+					app('db')->raw('ifnull(count(*), 0) AS noNotifications')
+				])
+				->noNotifications;
 	}
 }

@@ -122,7 +122,7 @@ class AuthController extends ApiController
     public function checkSession(User $user)
     {
         return response()->json(
-            $user->load(['profession', 'card'])
+            $user->load(['card'])
         );
     }
 

@@ -16,12 +16,10 @@ class FollowingController extends Controller
 		if ($userId != null) {
 			return User::find($userId)
 						->following()
-						->with(['profession'])
 						->get();
 		} else {
 			$user = app('App\User');
 			return $user->following()
-						->with(['profession'])
 						->get();
 		}
 	}

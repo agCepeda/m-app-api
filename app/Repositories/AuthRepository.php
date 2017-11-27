@@ -31,7 +31,6 @@ class AuthRepository extends Repository
 
                     if ($session->save()) {
                         $session->load([
-                            'user.profession',
                             'user.card'
                         ]);
                     }
@@ -67,7 +66,6 @@ class AuthRepository extends Repository
 
         if ($session->save()) {
             $session->load([
-                'user.profession',
                 'user.card'
             ]);
         }
@@ -97,7 +95,6 @@ class AuthRepository extends Repository
 
                 if ($session->save()) {
                     $session->load([
-                        'user.profession',
                         'user.card'
                     ]);
                 }

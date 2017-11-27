@@ -32,7 +32,7 @@ class ContactController extends Controller {
 
         return User::whereIn('id', $contacts2)
                 ->orderBy('show_name', 'ASC')
-                ->with('profession','card')
+                ->with('card')
                 ->get();
 	}
 
@@ -46,7 +46,7 @@ class ContactController extends Controller {
 
         return User::whereIn('id', $contacts2)
                 ->orderBy('show_name', 'ASC')
-                ->with('profession','card')
+                ->with('card')
                 ->get();
 	}
 
@@ -74,7 +74,7 @@ class ContactController extends Controller {
 					'attachment' => $user->id
 				]);
 
-			$publisher->sendFollowerNotificationToUser($user->id, $contactId);
+			$publisher->sendFollowerNotificationToUser($contactId);
 
 			app('db')->commit();
 		} catch (\Exception $ex) {

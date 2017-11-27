@@ -116,7 +116,7 @@ class UserRepository extends Repository
         $user->save();
         
         return User::where('id', $user->id)
-                ->with('profession', 'card')
+                ->with('card')
                 ->first();
     }
 }

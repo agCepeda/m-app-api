@@ -56,7 +56,7 @@ class ReviewController extends Controller
 					'attachment' => $user->id
 				]);
 
-			$publisher->sendReviewNotificationToUser($userId, $user->id);
+			$publisher->sendReviewNotificationToUser($userId);
 
 			$review = $db->table('reviews')
 				->where('reviews.id', $reviewId)

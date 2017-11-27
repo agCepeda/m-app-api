@@ -9,7 +9,6 @@ use GuzzleHttp\Client;
 use App\Repositories\UserRepository;
 
 use App\User;
-use App\Profession;
 
 use Log;
 
@@ -67,7 +66,7 @@ class UserController extends Controller
 		$db = app('db');
 
 		$contact = User::query()
-			->with('profession', 'card')
+			->with('card')
 			->withCount(['followers', 'following'])
 			->where('id', $userId)
 			->first();
