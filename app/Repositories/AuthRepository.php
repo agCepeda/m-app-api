@@ -75,19 +75,19 @@ class AuthRepository extends Repository
 
     public function registerUser($email, $name, $lastName, $password)
     {
-        $user = User::where('email', $email)
-        ->first();
+        $user = User::where('email', strtolower($email))->first();
 
         if ($user == null) {
             $user = new User([
-                'email'     => $email,
+                'email'     => strtoupper($email),
                 'name'      => $name,
                 'last_name' => $lastName,
                 'password'  => app('hash')->make($password),
                 'confirmed' => true
             ]);
 
-            if ($user->save()) {
+            try {
+                $user->save();
                 $session = new Session([
                     'token'   => generateRandomString(50),
                     'user_id' => $user->id
@@ -100,9 +100,11 @@ class AuthRepository extends Repository
                 }
 
                 return $session;
+            } catch (\Exception $e) {
+                app('log')->debug($e);
+                throw new AuthException(self::MSG_OTHER_USER_USE_SAME_EMAIL);
             }
         }
-        throw new AuthException(self::MSG_OTHER_USER_USE_SAME_EMAIL);
     }
 
     public function setDeviceToken($sessionToken, $deviceToken)
