@@ -15,7 +15,8 @@ class Session extends Model
     protected $fillable = [
     	'user_id',
     	'token',
-        'device_token'
+        'device_token',
+        'location_asked'
     ];
 
 	public function user()

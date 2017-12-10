@@ -51,11 +51,6 @@ class User extends Model
         'password', 'confirmation_token', 'created_at', 'updated_at', 'profession_id', 'card_id', 'confirmed'
     ];
 
-    public function getLogoAttribute($value)
-    {
-        return url($value);
-    }
-
     public function sessions()
     {
         return $this->hasMany('App\Session');

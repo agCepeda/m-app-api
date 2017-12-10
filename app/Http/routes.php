@@ -23,6 +23,7 @@ $app->post('/auth/sign-up', 'AuthController@signUp');
 $app->get('/auth/confirm-user', 'AuthController@confirmUser');
 $app->post('/auth/update-device-token', 'AuthController@updateDeviceToken');
 $app->post('/auth/update-location', 'AuthController@updateLocation');
+$app->post('/auth/update-location-asked', 'AuthController@updateLocationAsked');
 
 $app->get('/contact', 'ContactController@getContacts');
 $app->post('/contact', 'ContactController@addContact');

@@ -31,7 +31,8 @@ class AuthController extends ApiController
                 'checkSession',
                 'logout',
                 'updateDeviceToken',
-                'updateLocation'
+                'updateLocation',
+                'updateLocationAsked'
             ]
         ]);
     }
@@ -119,10 +120,10 @@ class AuthController extends ApiController
         }
     }
 
-    public function checkSession(User $user)
+    public function checkSession(Session $session)
     {
         return response()->json(
-            $user->load(['card'])
+            $session->load(['user.card'])
         );
     }
 
@@ -145,5 +146,12 @@ class AuthController extends ApiController
         $longitude = $request->get('longitude', null);
 
         $authRepo->setLocation($latitude, $longitude);
+    }
+
+    public function updateLocationAsked(
+        Request $request,
+        AuthRepository $authRepo
+    ) {
+        $authRepo->setLocationAsked(true);
     }
 }

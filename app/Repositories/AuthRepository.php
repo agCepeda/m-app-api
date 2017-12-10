@@ -102,9 +102,10 @@ class AuthRepository extends Repository
                 return $session;
             } catch (\Exception $e) {
                 app('log')->debug($e);
-                throw new AuthException(self::MSG_OTHER_USER_USE_SAME_EMAIL);
+                return response()->json(['error' => 'Server Error!'], 500);
             }
         }
+        throw new AuthException(self::MSG_OTHER_USER_USE_SAME_EMAIL);
     }
 
     public function setDeviceToken($sessionToken, $deviceToken)
@@ -121,5 +122,16 @@ class AuthRepository extends Repository
         $user->longitude = $longitude;
 
         $user->save();
+
+        $this->setLocationAsked(true);
+    }
+
+    public function setLocationAsked($asked)
+    {
+        $session = app(Session::class);
+
+        $session->asked = $asked;
+
+        $session->save();
     }
 }

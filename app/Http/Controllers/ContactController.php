@@ -24,30 +24,32 @@ class ContactController extends Controller {
 	{
 		$user = User::findOrFail($userId); 
 
-        $contacts2 = Contact::where('contact1', $user->id)
-            ->select(['contact2'])
-            ->map(function($item) {
-                return $item->contact2;
-            });
+        // $contacts2 = Contact::where('contact1', $user->id)
+        //     ->select(['contact2'])
+        //     ->map(function($item) {
+        //         return $item->contact2;
+        //     });
 
-        return User::whereIn('id', $contacts2)
+        return $user
+        		->following()
                 ->orderBy('show_name', 'ASC')
                 ->with('card')
-                ->get();
+                ->get([
+                	app('db')->raw('users.*'),
+                	app('db')->raw("concat(users.name, ' ', users.last_name) as show_name")
+                ]);
 	}
 
 	public function getContacts(User $user, Request $request)
 	{
-        $contacts2 = Contact::where('contact1', $user->id)
-            ->get(['contact2'])
-            ->map(function($item) {
-                return $item->contact2;
-            });
-
-        return User::whereIn('id', $contacts2)
+        return $user
+        		->following()
                 ->orderBy('show_name', 'ASC')
                 ->with('card')
-                ->get();
+                ->get([
+                	app('db')->raw('users.*'),
+                	app('db')->raw("concat(users.name, ' ', users.last_name) as show_name")
+                ]);
 	}
 
 	public function addContact(

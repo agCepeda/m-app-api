@@ -104,18 +104,4 @@ class UserController extends Controller
 
 		return response()->json(['message' => self::MSG_USER_NOT_FOUND], 404);
 	}
-
-	public function showMyProfile() {
-		return 13;
-	}
-
-	private function createRandomString($extra) {
-		$time    = time();
-		$md5Time = md5($time);
-		$str     = $time . $md5Time . $extra;
-
-		//$randString = md5($str);
-
-		return $str;
-	}
 }
