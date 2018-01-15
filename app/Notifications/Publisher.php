@@ -77,9 +77,11 @@ class Publisher
 				$message->addRecipient(new Device($deviceToken));
 			}
 
+			$notification = new Notification('Meisshi', $payload['aps']['alert']);
+			$notification->setBadge($payload['aps']['badge']);
+
 			$message
-				->setNotification(
-					new Notification('Meisshi', $payload['aps']['alert']))
+				->setNotification($notification)
 				->setData($payload['aps']);
 
 			$this->client->send($message);
@@ -106,6 +108,7 @@ class Publisher
 		return app('db')
 				->table('notifications AS n')
 				->where('user_id', $userId)
+				->where('seen', false)
 				->groupBy('user_id')
 				->first([
 					app('db')->raw('ifnull(count(*), 0) AS noNotifications')

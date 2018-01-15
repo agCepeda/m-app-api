@@ -70,6 +70,16 @@ class ContactController extends Controller {
 
 			app('db')
 				->table('notifications')
+				->where('user_id', $contactId)
+				->where('notification_type_id', Constants::NOTIFICATION_TYPE_FOLLOWER)
+				->where('attachment', $user->id)
+				->update([
+					'seen' => true
+				]);
+
+
+			app('db')
+				->table('notifications')
 				->insert([
 					'user_id' => $contactId,
 					'notification_type_id' => Constants::NOTIFICATION_TYPE_FOLLOWER,

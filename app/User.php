@@ -19,8 +19,8 @@ class User extends Model
         'email',
         'name',
         'last_name',
-        'profile_picture',
-        'logo',
+        //'profile_picture',
+        //'logo',
         'telephone1',
         'telephone2',
         'profession',
@@ -99,7 +99,7 @@ class User extends Model
         if ($this->logo) {
             $attributes['logo'] = url($this->logo);
         } else {
-            $attributes['logo'] = url('public/img/default-logo.png');
+            $attributes['logo'] = null;
         }
 
         $attributes['telephone1'] = $this->telephone1;

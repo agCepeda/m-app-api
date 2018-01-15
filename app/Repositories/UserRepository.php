@@ -90,14 +90,14 @@ class UserRepository extends Repository
     ) {
         $user = app(User::class);
 
-        $user->fill(
-            extractKeysOfArray(
-                $user->fillable,
-                $profileData
-            )
+        $profileData = extractKeysOfArray(
+            $user->fillable,
+            $profileData
         );
+        $user->fill($profileData);
 
-        if (isset($logoFile) && $logoFile != null) {
+
+        if ($logoFile) {
             $randomName = generateRandomString(20);
 
             if ($logoFile->move('public/logo', $randomName . '.jpeg')) {
@@ -105,10 +105,10 @@ class UserRepository extends Repository
             }
         }
 
-        if (isset($profilePicture) && $profilePicture != null) {
+        if ($profileFile) {
             $randomName = generateRandomString(20);
 
-            if ($profilePicture->move('public/profile_picture', $randomName . '.jpeg')) {
+            if ($profileFile->move('public/profile_picture', $randomName . '.jpeg')) {
                 $user->profile_picture = 'public/profile_picture/' . $randomName . '.jpeg';
             }
         }

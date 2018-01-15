@@ -24,6 +24,14 @@ class NotificationController extends Controller
 							  ->with('attachment')
 							  //->where('seen', false)
 							  ->paginate($size, ['*'], 'page', $page);
+
+		app('db')
+			->table('notifications')
+			->where('user_id', $user->id)
+			->update([
+				'seen' => true
+			]);
+
 		return response()->json($notifications);
 	}
 
